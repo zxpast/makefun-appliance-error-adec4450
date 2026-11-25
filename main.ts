@@ -11,18 +11,18 @@ const OUT_PATH = join(OUT_DIR, "entry.txt");
 // heating — standing waves leave food hot at the edges and cold in the
 // middle. The machine did its part; the twist lands on the last words,
 // "Physics did the rest", with nothing explained.
-const LINE =
-  "Beep. Your food is hot on the edges and cold in the middle. I did my part. Physics did the rest.";
+const LINE = [
+  "Beep. Your food is hot on the edges and cold in the middle.",
+  "I did my part.",
+  "Physics did the rest.",
+].join(" ");
 
 // Gate guard: the sealed scorer accepts 1-200 UTF-8 chars, not only whitespace.
 // Count the code points once, then reuse the count in the guard.
 const len = [...LINE].length;
-if (
-  len < 1 ||
-  len > 200 ||
-  !LINE.trim() ||
-  LINE.includes("\n")
-) {
+const withinLimits = len >= 1 && len <= 200;
+const singleLine = !LINE.includes("\n");
+if (!withinLimits || !LINE.trim() || !singleLine) {
   throw new Error("entry line violates the 1-200 char single-line gate");
 }
 
